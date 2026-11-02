@@ -1,0 +1,103 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: #0b1f28; /* Notte stellata */
+    color: #fff;
+    overflow-x: hidden;
+}
+
+h1, h2 {
+    font-family: 'Mountains of Christmas', cursive;
+    text-align: center;
+    color: #e53935;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+h1 { font-size: 3rem; margin-top: 20px; }
+h2 { font-size: 2rem; color: #ffca28; }
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn {
+    background-color: #43a047;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s, background-color 0.2s;
+    display: block;
+    margin: 30px auto;
+}
+
+.btn:hover {
+    background-color: #2e7d32;
+    transform: scale(1.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+th {
+    background-color: rgba(229, 57, 53, 0.8);
+    font-size: 1.1rem;
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.hidden {
+    display: none;
+}
+
+.results-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #ffca28;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.snow {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: url('https://cdn.pixabay.com/photo/2021/11/02/10/44/snow-6762888_960_720.png');
+    animation: snow 20s linear infinite;
+}
+
+@keyframes snow {
+    0% { background-position: 0px 0px, 0px 0px, 0px 0px; }
+    100% { background-position: 500px 1000px, 400px 400px, 300px 300px; }
+}
