@@ -198,6 +198,9 @@ document.getElementById('draw-btn').addEventListener('click', () => {
             document.getElementById('results-2026').classList.remove('hidden');
             drawBtn.innerText = "Rifai Estrazione (Debug)";
             drawBtn.disabled = false;
+            
+            // Fai scroll automatico verso i risultati
+            document.getElementById('results-2026').scrollIntoView({ behavior: 'smooth' });
         } else {
             alert("Impossibile trovare una combinazione valida con questi vincoli!");
             drawBtn.innerText = "Genera Nuova Estrazione 2026";
