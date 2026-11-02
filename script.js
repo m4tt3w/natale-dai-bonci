@@ -27,7 +27,11 @@ function renderHistory() {
 
     years.forEach(year => {
         let html = `<h3>Natale ${year}</h3><table><thead><tr><th>Chi fa il regalo</th><th>A chi lo fa</th></tr></thead><tbody>`;
-        for (const [giver, receiver] of Object.entries(history[year])) {
+        
+        // Ordine alfabetico per lo storico
+        const sortedHistory = Object.entries(history[year]).sort((a, b) => a[0].localeCompare(b[0]));
+        
+        for (const [giver, receiver] of sortedHistory) {
             html += `<tr><td>${giver}</td><td>${receiver}</td></tr>`;
         }
         html += `</tbody></table>`;
@@ -96,7 +100,11 @@ document.getElementById('draw-btn').addEventListener('click', () => {
         if (result) {
             const tbody = document.querySelector('#table-2026 tbody');
             tbody.innerHTML = '';
-            for (const [giver, receiver] of Object.entries(result)) {
+            
+            // Ordine alfabetico per i nuovi risultati
+            const sortedResult = Object.entries(result).sort((a, b) => a[0].localeCompare(b[0]));
+            
+            for (const [giver, receiver] of sortedResult) {
                 tbody.innerHTML += `<tr><td>${giver}</td><td>${receiver}</td></tr>`;
             }
             document.getElementById('results-2026').classList.remove('hidden');

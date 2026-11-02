@@ -19,7 +19,7 @@ Questo assicura che venga esplorato l'albero delle combinazioni per trovare un'e
 - Nessuno fa il regalo a un partner o a una persona nel proprio gruppo di esclusione.
 - Nessuno fa il regalo a qualcuno a cui l'ha già fatto dal 2022 al 2025.
 
-L'algoritmo mescola dinamicamente i candidati (`Math.random()`) prima di testarli, così ogni click genera una configurazione valida diversa.
+I risultati vengono poi ordinati in automatico in ordine alfabetico per facilitarne la lettura.
 
 ## 🌐 Deploy su GitHub Pages
 
