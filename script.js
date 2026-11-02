@@ -4,6 +4,26 @@ const participants = [
     "Massimo", "Manuela", "Andrea", "Laura"
 ];
 
+// Date di nascita nel formato YYYY-MM-DD
+const birthdates = {
+    "Matteo": "1988-05-20",
+    "Bibbi": "1989-11-20",
+    "Marco": "1953-09-02",
+    "Loretta": "1954-08-01", 
+    "Stefano": "", 
+    "Marina": "",
+    "Francesco": "1987-03-20", 
+    "Roberta": "", 
+    "Pilu": "1993-07-07", 
+    "Alessandro": "1982-11-09", 
+    "Bianca": "", 
+    "Elena": "", 
+    "Massimo": "1961-08-26", 
+    "Manuela": "1962-08-24", 
+    "Andrea": "1993-05-05", 
+    "Laura": "1998-05-23"
+};
+
 const exclusionGroups = [
     ["Matteo", "Bibbi"],
     ["Marco", "Loretta"],
@@ -21,18 +41,56 @@ const history = {
     2022: {"Marina": "Elena", "Stefano": "Manuela", "Massimo": "Francesco", "Loretta": "Bianca", "Matteo": "Loretta", "Andrea": "Matteo", "Bibbi": "Pilu", "Roberta": "Andrea", "Francesco": "Marco", "Laura": "Alessandro", "Manuela": "Roberta", "Marco": "Massimo", "Pilu": "Stefano", "Alessandro": "Bibbi", "Bianca": "Marina", "Elena": "Laura"}
 };
 
+let currentUser = "";
+
+// Inizializza la select del login
+const userSelect = document.getElementById('user-select');
+participants.sort().forEach(p => {
+    userSelect.innerHTML += `<option value="${p}">${p}</option>`;
+});
+
+// Gestione Login
+document.getElementById('login-btn').addEventListener('click', () => {
+    const selectedUser = userSelect.value;
+    const inputDate = document.getElementById('birthdate-input').value;
+    const errorMsg = document.getElementById('login-error');
+
+    if (!selectedUser) {
+        errorMsg.innerText = "Seleziona un nome!";
+        errorMsg.classList.remove('hidden');
+        return;
+    }
+
+    if (birthdates[selectedUser] === "") {
+        alert("La data di nascita per " + selectedUser + " non è ancora stata inserita nel sistema.");
+        return;
+    }
+
+    if (inputDate === birthdates[selectedUser]) {
+        currentUser = selectedUser;
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('app-section').classList.remove('hidden');
+        renderHistory(); 
+    } else {
+        errorMsg.innerText = "Data di nascita errata. Riprova!";
+        errorMsg.classList.remove('hidden');
+    }
+});
+
+
 function renderHistory() {
     const container = document.getElementById('history-container');
+    container.innerHTML = ''; 
     const years = Object.keys(history).sort((a,b) => b - a);
 
     years.forEach(year => {
         let html = `<h3>Natale ${year}</h3><table><thead><tr><th>Chi fa il regalo</th><th>A chi lo fa</th></tr></thead><tbody>`;
         
-        // Ordine alfabetico per lo storico
         const sortedHistory = Object.entries(history[year]).sort((a, b) => a[0].localeCompare(b[0]));
         
         for (const [giver, receiver] of sortedHistory) {
-            html += `<tr><td>${giver}</td><td>${receiver}</td></tr>`;
+            const highlightClass = (giver === currentUser) ? 'class="highlight-row"' : '';
+            html += `<tr ${highlightClass}><td>${giver}</td><td>${receiver}</td></tr>`;
         }
         html += `</tbody></table>`;
         container.innerHTML += html;
@@ -65,7 +123,6 @@ function generateDraw() {
         if (index === participants.length) return true;
 
         let giver = participants[index];
-        
         let candidates = [...receiversList].sort(() => Math.random() - 0.5);
 
         for (let receiver of candidates) {
@@ -75,7 +132,6 @@ function generateDraw() {
                 if (backtrack(index + 1)) {
                     return true;
                 }
-                
                 delete result[giver];
             }
         }
@@ -101,11 +157,11 @@ document.getElementById('draw-btn').addEventListener('click', () => {
             const tbody = document.querySelector('#table-2026 tbody');
             tbody.innerHTML = '';
             
-            // Ordine alfabetico per i nuovi risultati
             const sortedResult = Object.entries(result).sort((a, b) => a[0].localeCompare(b[0]));
             
             for (const [giver, receiver] of sortedResult) {
-                tbody.innerHTML += `<tr><td>${giver}</td><td>${receiver}</td></tr>`;
+                const highlightClass = (giver === currentUser) ? 'class="highlight-row"' : '';
+                tbody.innerHTML += `<tr ${highlightClass}><td>${giver}</td><td>${receiver}</td></tr>`;
             }
             document.getElementById('results-2026').classList.remove('hidden');
             drawBtn.innerText = "Rifai Estrazione (Debug)";
@@ -117,5 +173,3 @@ document.getElementById('draw-btn').addEventListener('click', () => {
         }
     }, 500);
 });
-
-renderHistory();

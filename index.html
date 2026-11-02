@@ -9,7 +9,25 @@
 </head>
 <body>
     <div class="snow"></div>
-    <div class="container">
+    
+    <!-- Sezione di Login -->
+    <div id="login-section" class="container login-container">
+        <h1>🎄 Accesso Segreto 🎁</h1>
+        <p style="text-align: center; font-size: 1.2rem;">Seleziona il tuo nome e inserisci la tua data di nascita per accedere alle estrazioni.</p>
+        
+        <select id="user-select" class="input-field">
+            <option value="">-- Seleziona il tuo nome --</option>
+            <!-- Popolato via JS -->
+        </select>
+        
+        <input type="date" id="birthdate-input" class="input-field">
+        
+        <button id="login-btn" class="btn">Accedi</button>
+        <p id="login-error" class="hidden error-msg">Data di nascita errata. Riprova!</p>
+    </div>
+
+    <!-- App Principale (Nascosta all'inizio) -->
+    <div id="app-section" class="container hidden">
         <h1>🎄 Estrazione Regali 2026 🎁</h1>
         
         <div class="actions">
