@@ -10,14 +10,14 @@ const birthdates = {
     "Bibbi": "1989-11-20",
     "Marco": "1953-09-02",
     "Loretta": "1954-08-01", 
-    "Stefano": "", 
-    "Marina": "",
+    "Stefano": "1957-06-23", 
+    "Marina": "1957-05-17",
     "Francesco": "1987-03-20", 
-    "Roberta": "", 
+    "Roberta": "1990-08-07", 
     "Pilu": "1993-07-07", 
-    "Alessandro": "1982-11-09", 
+    "Alessandro": "1984-11-09",
     "Bianca": "", 
-    "Elena": "", 
+    "Elena": "2000-07-04", 
     "Massimo": "1961-08-26", 
     "Manuela": "1962-08-24", 
     "Andrea": "1993-05-05", 
@@ -70,12 +70,44 @@ document.getElementById('login-btn').addEventListener('click', () => {
         currentUser = selectedUser;
         document.getElementById('login-section').classList.add('hidden');
         document.getElementById('app-section').classList.remove('hidden');
+        
+        renderPersonalRecap();
         renderHistory(); 
     } else {
         errorMsg.innerText = "Data di nascita errata. Riprova!";
         errorMsg.classList.remove('hidden');
     }
 });
+
+function renderPersonalRecap() {
+    const tbody = document.querySelector('#recap-table tbody');
+    const title = document.getElementById('recap-title');
+    tbody.innerHTML = '';
+    title.innerText = `🎁 Ciao ${currentUser}, ecco i tuoi regali passati! 🎁`;
+
+    const years = Object.keys(history).sort((a,b) => b - a);
+
+    years.forEach(year => {
+        let gaveTo = history[year][currentUser] || "-";
+        let receivedFrom = "-";
+        
+        // Cerca chi ha fatto il regalo all'utente corrente
+        for (const [giver, receiver] of Object.entries(history[year])) {
+            if (receiver === currentUser) {
+                receivedFrom = giver;
+                break;
+            }
+        }
+        
+        tbody.innerHTML += `<tr>
+            <td style="font-weight: bold; color: #ffca28;">${year}</td>
+            <td>${gaveTo}</td>
+            <td>${receivedFrom}</td>
+        </tr>`;
+    });
+    
+    document.getElementById('personal-recap').classList.remove('hidden');
+}
 
 
 function renderHistory() {
@@ -89,7 +121,7 @@ function renderHistory() {
         const sortedHistory = Object.entries(history[year]).sort((a, b) => a[0].localeCompare(b[0]));
         
         for (const [giver, receiver] of sortedHistory) {
-            const highlightClass = (giver === currentUser) ? 'class="highlight-row"' : '';
+            const highlightClass = (giver === currentUser || receiver === currentUser) ? 'class="highlight-row"' : '';
             html += `<tr ${highlightClass}><td>${giver}</td><td>${receiver}</td></tr>`;
         }
         html += `</tbody></table>`;
@@ -160,7 +192,7 @@ document.getElementById('draw-btn').addEventListener('click', () => {
             const sortedResult = Object.entries(result).sort((a, b) => a[0].localeCompare(b[0]));
             
             for (const [giver, receiver] of sortedResult) {
-                const highlightClass = (giver === currentUser) ? 'class="highlight-row"' : '';
+                const highlightClass = (giver === currentUser || receiver === currentUser) ? 'class="highlight-row"' : '';
                 tbody.innerHTML += `<tr ${highlightClass}><td>${giver}</td><td>${receiver}</td></tr>`;
             }
             document.getElementById('results-2026').classList.remove('hidden');
@@ -168,7 +200,7 @@ document.getElementById('draw-btn').addEventListener('click', () => {
             drawBtn.disabled = false;
         } else {
             alert("Impossibile trovare una combinazione valida con questi vincoli!");
-            drawBtn.innerText = "Genera Estrazione 2026";
+            drawBtn.innerText = "Genera Nuova Estrazione 2026";
             drawBtn.disabled = false;
         }
     }, 500);
